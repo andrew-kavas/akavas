@@ -6,6 +6,7 @@ on:
       - andrewkavas-app/**
     branches:
       - main  # Specifies that this workflow runs on pushes to the main branch
+      # - fun  # Specifies that this workflow runs on pushes to the fun branch
       # - ci-cd  # uncomment to test workflow on ci-cd branch
 
 jobs:

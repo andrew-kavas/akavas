@@ -3,6 +3,7 @@ import LoadingArea from '#src/components/loading-area.jsx';
 import Test2 from '#src/components/test2.jsx';
 import config from '#src/config.js';
 import RickRoll from '#src/fun/rick-roll.jsx';
+import SpeechFun from '#src/fun/speech-fun.jsx';
 import consoleFun from '#src/functions/console-fun.js';
 import useAsync from '#src/hooks/use-async.js';
 // import AudioFun from '#src/fun/audio-fun.jsx';
@@ -39,6 +40,7 @@ const Test = ({ testParam1, testError }) => {
       {error && <div className='text-red-500'>Error: {error.message}</div>}
       <div>test change</div>
       {data && <div className='text-green-500'>{data}</div>}
+      <SpeechFun />
       <RickRoll />
       {/* <AudioFun soundUrl='http://demo.twilio.com/docs/classic.mp3' />*/}
       <Test2 />
