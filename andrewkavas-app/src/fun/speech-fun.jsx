@@ -4,7 +4,6 @@ const { console, window } = globalThis;
 
 const { SpeechSynthesisUtterance } = window;
 
-// todo: new component snippets
 export default () => {
   const placeholder = 'Happy Halloween boogie nation';
   const [text, setText] = useState(placeholder);
