@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 /**
  * @template {(...args: any[]) => any} T
@@ -6,7 +6,11 @@ import { useCallback, useRef } from 'react';
  */
 const useEvent = fn => {
   const ref = useRef(fn);
-  ref.current = fn;
+
+  useEffect(() => {
+    ref.current = fn;
+  }, [fn]);
+
   return useCallback(/** @type {T} */ ((...args) => ref.current(...args)), []);
 };
 
