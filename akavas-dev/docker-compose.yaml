@@ -26,11 +26,11 @@ services:
 
   app:
     build:
-      context: ../andrewkavas-app
+      context: ../akavas-app
     ports:
       - "3000:3000"
     volumes:
-      - ../andrewkavas-app:/app
+      - ../akavas-app:/app
       - /app/node_modules
     environment:
       NODE_ENV: development

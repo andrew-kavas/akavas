@@ -1,6 +1,0 @@
-#!/bin/sh -e
-
-# cd ../andrewkavas-api
-# npm install
-cd ../andrewkavas-app
-npm install

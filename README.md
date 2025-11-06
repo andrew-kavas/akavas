@@ -4,13 +4,13 @@ https://akavas.com
 personal site WIP \
 `bin/up`
 
-<!--what: minimalist andrewkavas scaffold
-why: prototyping andrewkavas applications
+<!--what: minimalist akavas scaffold
+why: prototyping akavas applications
 how: react app, koa api, built with vite, deployed to fly.io, persistent postgres volumes -- all dockerized and filled with examples / notes
 
 ## to build and start:
-clone this repo and cd into andrewkavas/andrewkavas-dev \
-`cd andrewkavas-dev`
+clone this repo and cd into akavas/akavas-dev \
+`cd akavas-dev`
 `bin/setup`
 `bin/up`
 

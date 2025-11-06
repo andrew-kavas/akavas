@@ -5,7 +5,7 @@ import useAsync from '#src/hooks/use-async.js';
 
 const { fetch } = globalThis;
 
-const { apiUrl } = config.andrewkavas;
+const { apiUrl } = config.akavas;
 
 /** @param {{ testParam1: string; testError?: boolean }} props */
 const Test = ({ testParam1, testError }) => {

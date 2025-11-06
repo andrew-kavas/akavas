@@ -12,12 +12,8 @@ export default defineConfig(({ mode }) => {
   const define = {
     'process.env.VERSION': JSON.stringify(env.VITE_VERSION),
     // todo: conditionally set these based on the environment
-    'process.env.ANDREWKAVAS_API_URL': JSON.stringify(
-      env.VITE_ANDREWKAVAS_API_URL
-    ),
-    'process.env.ANDREWKAVAS_APP_URL': JSON.stringify(
-      env.VITE_ANDREWKAVAS_APP_URL
-    )
+    'process.env.AKAVAS_API_URL': JSON.stringify(env.VITE_AKAVAS_API_URL),
+    'process.env.AKAVAS_APP_URL': JSON.stringify(env.VITE_AKAVAS_APP_URL)
   };
 
   return {

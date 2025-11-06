@@ -9,6 +9,6 @@ notes.md
 
 .env.production
 
-/andrewkavas-api*
+/akavas-api*
 /api*
 /dev*

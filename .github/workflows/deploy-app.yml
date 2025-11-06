@@ -3,9 +3,10 @@ name: Deploy app to Fly.io
 on:
   push:
     paths:
-      - andrewkavas-app/**
+      - akavas-app/**
     branches:
       - main  # Specifies that this workflow runs on pushes to the main branch
+      # - fun  # Specifies that this workflow runs on pushes to the fun branch # - fun  # Specifies that this workflow runs on pushes to the fun branch
       # - ci-cd  # uncomment to test workflow on ci-cd branch
 
 jobs:
@@ -20,6 +21,6 @@ jobs:
       uses: superfly/flyctl-actions/setup-flyctl@master
 
     - name: fly deploy
-      run: cd andrewkavas-app && flyctl deploy --remote-only
+      run: cd akavas-app && flyctl deploy --remote-only
       env:
         FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN_APP }}
