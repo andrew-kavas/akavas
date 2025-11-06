@@ -1,29 +1,4 @@
 services:
-  # db:
-  #   image: postgres:13
-  #   environment:
-  #     POSTGRES_USER: postgres
-  #     POSTGRES_PASSWORD: password
-  #     POSTGRES_DB: mydatabase
-  #   ports:
-  #     - "5432:5432"
-  #   volumes:
-  #     - pgdata:/var/lib/postgresql/data
-
-  # api:
-  #   build:
-  #     context: ../fullstack-api
-  #   ports:
-  #     - "4000:4000"
-  #   volumes:
-  #     - ../fullstack-api:/app
-  #   environment:
-  #     NODE_ENV: development
-  #     VERSION: development
-  #     TEST_SECRET:
-  #   depends_on:
-  #     - db
-
   app:
     build:
       context: ../akavas-app
@@ -33,10 +8,3 @@ services:
     volumes:
       - ../akavas-app:/app
       - /app/node_modules
-    environment:
-      NODE_ENV: development
-      VERSION: development
-      TEST_SECRET: test_secret
-
-# volumes:
-#   pgdata:

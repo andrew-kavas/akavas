@@ -1,24 +1,19 @@
-// Safely access environment variables defined in vite.config.js
-const VERSION = process.env.VERSION || 'development';
-const AKAVAS_API_URL = process.env.AKAVAS_API_URL;
-const AKAVAS_APP_URL = process.env.AKAVAS_APP_URL;
+// Vite environment variables (from .env files)
+const MODE = import.meta.env.MODE; // 'development' or 'production'
+const API_URL = import.meta.env.VITE_AKAVAS_API_URL;
+const APP_URL = import.meta.env.VITE_AKAVAS_APP_URL;
 
-// Set defaults for development
-let apiUrl = AKAVAS_API_URL;
-let appUrl = AKAVAS_APP_URL;
-
-if (VERSION === 'development') {
-  apiUrl = apiUrl || 'http://localhost:4000';
-  appUrl = appUrl || 'http://localhost:3000';
-}
+// Development defaults
+const DEV_API_URL = 'http://localhost:4000';
+const DEV_APP_URL = 'http://localhost:3000';
 
 const config = {
   akavas: {
-    apiUrl,
-    appUrl
+    apiUrl: MODE === 'development' ? API_URL || DEV_API_URL : API_URL,
+    appUrl: MODE === 'development' ? APP_URL || DEV_APP_URL : APP_URL
   },
-  port: VERSION === 'development' ? 3000 : 80,
-  version: VERSION
+  port: MODE === 'development' ? 3000 : 80,
+  version: MODE
 };
 
 export default config;
