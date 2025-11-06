@@ -27,8 +27,8 @@ export default defineConfig(({ mode }) => {
         'akavas.com',
         'app.akavas.com',
         'www.akavas.com',
-        'andrew-kavas.fly.dev'
-        // 'andrewkavas.com',
+        'akavas.fly.dev'
+        // 'akavas.com',
         // 'localhost'
       ],
       strictPort: true // Ensures Vite will only start if the port is available
