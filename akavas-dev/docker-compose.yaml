@@ -27,6 +27,7 @@ services:
   app:
     build:
       context: ../akavas-app
+      target: development
     ports:
       - "3000:3000"
     volumes:
@@ -37,5 +38,5 @@ services:
       VERSION: development
       TEST_SECRET: test_secret
 
-volumes:
-  pgdata:
+# volumes:
+#   pgdata:

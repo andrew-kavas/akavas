@@ -6,7 +6,7 @@
   "imports": { "#*": "./*" },
   "scripts": {
     "dev": "vite --mode development",
-    "devBuild": "vite --mode production",
+    "devBuild": "vite build --mode production",
     "build": "vite build --mode production",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "serve": "vite preview"

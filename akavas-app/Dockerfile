@@ -1,7 +1,6 @@
-# Use an official Node.js runtime as a parent image
+# Build stage
 FROM node:alpine as build
 
-# Set the working directory
 WORKDIR /app
 
 # Install dependencies
@@ -11,17 +10,34 @@ RUN npm install
 # Copy the rest of the application code
 COPY . .
 
-# todo: conditionally expose 3000 if dev or 80 if prod
-# EXPOSE 3000
-# EXPOSE 80
+# Build the application
+RUN npm run build
 
-# todo: multi-stage build with build-target specified in fly config and compose file (or bin/up)
+# Production stage with nginx
+FROM nginx:alpine as production
 
-# Command to run Vite
-# for "production"
-FROM build as production
-CMD ["npm", "run", "devBuild"]
+# Copy built files from build stage
+COPY --from=build /app/dist /usr/share/nginx/html
 
-# for "development"
-FROM build as development
+# Copy custom nginx configuration
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Expose port 80
+EXPOSE 80
+
+# Start nginx
+CMD ["nginx", "-g", "daemon off;"]
+
+# Development stage (for local development)
+FROM node:alpine as development
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install
+
+COPY . .
+
+EXPOSE 3000
+
 CMD ["npm", "run", "dev"]
