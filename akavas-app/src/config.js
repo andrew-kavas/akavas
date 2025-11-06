@@ -1,3 +1,4 @@
+// todo: revisit .env files
 // Vite environment variables (from .env files)
 const MODE = import.meta.env.MODE; // 'development' or 'production'
 const API_URL = import.meta.env.VITE_AKAVAS_API_URL;
