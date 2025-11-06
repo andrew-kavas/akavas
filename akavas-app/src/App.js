@@ -1,5 +1,5 @@
 import reactLogo from '#src/assets/react.svg';
-import Test from '#src/components/test.jsx';
+import Test from '#src/components/test.js';
 
 import '#src/App.css';
 

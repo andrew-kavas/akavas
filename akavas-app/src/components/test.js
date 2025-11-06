@@ -1,5 +1,5 @@
-import Clickable from '#src/components/clickable.jsx';
-import LoadingArea from '#src/components/loading-area.jsx';
+import Clickable from '#src/components/clickable.js';
+import LoadingArea from '#src/components/loading-area.js';
 import config from '#src/config.js';
 import useAsync from '#src/hooks/use-async.js';
 

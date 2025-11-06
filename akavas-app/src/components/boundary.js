@@ -1,6 +1,6 @@
 import { Component, Suspense } from 'react';
 
-import LoadingArea from '#src/components/loading-area.jsx';
+import LoadingArea from '#src/components/loading-area.js';
 import reportError from '#src/functions/report-error.js';
 
 // const { console } = globalThis;
