@@ -1,0 +1,1 @@
+export default 'rounded-sm border p-2 w-full appearance-none transition hover:[&:not(:focus-within)]:bg-gray-50 hover:[&:not(:focus-within)]:border-gray-300 focus-within:bg-white focus-within:shadow-sm focus-within:border-cyan-500';

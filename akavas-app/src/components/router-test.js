@@ -1,39 +1,9 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useCallback, useEffect, useState } from 'react';
+import { createRoot } from 'react-dom/client';
 
-import reactLogo from '#src/assets/react.svg';
-import Test from '#src/components/test.js';
-import lazyLoad, { preloadComponent } from '#src/functions/lazy-load.js';
 import useHistory from '#src/hooks/use-history.js';
-import useRootContext from '#src/hooks/use-root-context.js';
 
-// import React, { Suspense, useCallback, useEffect, useState } from 'react';
-// import { createRoot } from 'react-dom/client';
-// const { document, window } = globalThis;
-
-import '#src/App.css';
-
-const { location } = globalThis;
-
-// Lazy-load ProjectA and ProjectB components
-const ProjectA = lazyLoad(() => import('#src/components/project-a.js'));
-const ProjectB = lazyLoad(() => import('#src/components/project-b.js'));
-
-const Header = () => (
-  <div className='flex flex-row justify-center'>
-    <a href='https://react.dev' target='_blank' rel='noreferrer'>
-      <img src={reactLogo} className='logo react' alt='React logo' />
-    </a>
-  </div>
-);
-
-const Footer = () => (
-  <div className='flex flex-row justify-center'>
-    <a href='https://react.dev' target='_blank' rel='noreferrer'>
-      <img src={reactLogo} className='logo react' alt='React logo' />
-      <div>Link to my GitHub</div>
-    </a>
-  </div>
-);
+const { document, window } = globalThis;
 
 // --- Utility Component for Layouts ---
 const PageLayout = ({ title, children }) => (
@@ -56,6 +26,30 @@ const Home = () => (
   </PageLayout>
 );
 
+const ProjectA = () => (
+  <PageLayout title='Project A - Advanced Data Viz'>
+    <p className='text-lg mb-4 text-gray-700'>
+      This demonstrates content specific to Project A.
+    </p>
+    <div className='bg-green-100 p-4 rounded-lg text-green-800 font-semibold'>
+      Use Case: This could have been a lazy-loaded component in a multi-file
+      project.
+    </div>
+  </PageLayout>
+);
+
+const ProjectB = () => (
+  <PageLayout title='Project B - Complex Form Handler'>
+    <p className='text-lg mb-4 text-gray-700'>
+      This demonstrates content specific to Project B.
+    </p>
+    <div className='bg-yellow-100 p-4 rounded-lg text-yellow-800 font-semibold'>
+      Use Case: This could have been a lazy-loaded component in a multi-file
+      project.
+    </div>
+  </PageLayout>
+);
+
 // --- 3. The Router Component (Core Logic) ---
 
 const Router = ({ path }) => {
@@ -71,30 +65,23 @@ const Router = ({ path }) => {
 };
 
 // --- 4. Main Application ---
-//
 
 const App = () => {
   // Get the core navigation tools from the idiomatic hook name
+  const { path, push } = useHistory();
 
-  const rootCtx = useRootContext();
-  // TODO: look at jobtread/jobtread-app/src/components/root.js
-  // const { location } = useRootContext()
-  console.log('rootCtx', rootCtx);
-  console.log('location', location);
-  console.log('location', location.pathname);
-  const parts = location.pathname.split('/');
-  console.log('parts', parts);
+  // Load Tailwind on mount
+  // useEffect(() => {
+  //   loadTailwind();
+  // }, []);
 
-  const history = useHistory();
-
-  const NavItem = ({ to, label, onHover = null }) => (
+  const NavItem = ({ to, label }) => (
     <button
-      onClick={() => history.push(to)}
-      onMouseEnter={onHover || undefined}
+      onClick={() => push(to)}
       className={`
         px-6 py-2 mx-2 rounded-lg font-semibold transition duration-150 ease-in-out
         ${
-          history.path.startsWith(to) || (to === '/' && history.path === '/')
+          path.startsWith(to) || (to === '/' && path === '/')
             ? 'bg-indigo-600 text-white shadow-md'
             : 'bg-indigo-100 text-indigo-700 hover:bg-indigo-200'
         }
@@ -106,10 +93,6 @@ const App = () => {
 
   return (
     <div className='min-h-screen bg-gray-50 p-6 font-[Inter]'>
-      <Header />
-      <Test testParam1={'ok'} />
-      {/* <Test testParam1='ok' testError={true} />*/}
-      <Footer />
       <header className='text-center mb-10'>
         <h1 className='text-5xl font-extrabold text-gray-800 mb-2'>
           Custom Routing Example
@@ -122,20 +105,8 @@ const App = () => {
       {/* Navigation Links */}
       <nav className='flex justify-center mb-12'>
         <NavItem to='/' label='Home' />
-        <NavItem
-          to='/project-a'
-          label='Project A'
-          onHover={() =>
-            preloadComponent(() => import('#src/components/project-a.js'))
-          }
-        />
-        <NavItem
-          to='/project-b'
-          label='Project B'
-          onHover={() =>
-            preloadComponent(() => import('#src/components/project-b.js'))
-          }
-        />
+        <NavItem to='/project-a' label='Project A' />
+        <NavItem to='/project-b' label='Project B' />
       </nav>
 
       {/* Main Content Area: Suspense wraps the Router */}
@@ -151,14 +122,21 @@ const App = () => {
             </PageLayout>
           }
         >
-          <Router path={history.path} />
+          <Router path={path} />
         </Suspense>
 
         <div className='mt-8 pt-6 text-center border-t border-gray-200 text-sm font-mono text-gray-500'>
-          Current Path: {history.path}
+          Current Path: {path}
         </div>
       </main>
     </div>
   );
 };
+
 export default App;
+// The necessary ReactDOM setup for the canvas environment
+const container = document.getElementById('root');
+if (container) {
+  const root = createRoot(container);
+  root.render(<App />);
+}
