@@ -23,7 +23,7 @@ const ProjectA = () => {
       <div className='bg-green-100 p-4 rounded-lg text-green-800 font-semibold'>
         ✅ This component was lazy-loaded!
       </div>
-      <div className='mt-4 text-sm text-gray-500'>
+      <div bad='true' className='mt-4 text-sm text-gray-500'>
         Check the Network tab to see this component loaded separately.
       </div>
     </PageLayout>
