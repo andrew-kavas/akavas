@@ -10,17 +10,31 @@ on:
       # - ci-cd  # uncomment to test workflow on ci-cd branch
 
 jobs:
-  deploy:
-    name: Deploy APP
-    runs-on: ubuntu-latest  # Specifies the runner environment
+  build-and-deploy:
+    name: Build, Test & Deploy
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: akavas-app
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4  # Checks out your repository under $GITHUB_WORKSPACE
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: setup flyctl
-      uses: superfly/flyctl-actions/setup-flyctl@master
+      - name: Install dependencies
+        run: npm install
 
-    - name: fly deploy
-      run: cd akavas-app && flyctl deploy --remote-only -a akavas
-      env:
-        FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN_APP }}
+      - name: Run Lint
+        run: chmod +x bin/lint && ./bin/lint
+
+      - name: Notify Slack on Failure
+        if: failure()
+        run: |
+          curl -X POST -H 'Authorization: Bearer ${{ secrets.SLACK_BOT_TOKEN }}' -H 'Content-type: application/json' --data '{"channel":"${{ secrets.SLACK_CHANNEL_ID }}","text":"❌ Lint check failed! Deployment stopped."}' https://slack.com/api/chat.postMessage
+
+      - name: setup flyctl
+        uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: fly deploy
+        run: flyctl deploy --remote-only -a akavas
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN_APP }}
