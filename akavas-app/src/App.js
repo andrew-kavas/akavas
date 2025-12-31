@@ -5,8 +5,6 @@ import Test from '#src/components/test.js';
 import lazyLoad, { preloadComponent } from '#src/functions/lazy-load.js';
 import useHistory from '#src/hooks/use-history.js';
 
-
-
 import '#src/App.css';
 
 // Lazy-load ProjectA and ProjectB components

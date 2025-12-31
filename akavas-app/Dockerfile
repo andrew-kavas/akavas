@@ -27,17 +27,3 @@ EXPOSE 80
 
 # Start nginx
 CMD ["nginx", "-g", "daemon off;"]
-
-# Development stage (for local development)
-FROM node:alpine as development
-
-WORKDIR /app
-
-COPY package*.json ./
-RUN npm install
-
-COPY . .
-
-EXPOSE 3000
-
-CMD ["npm", "run", "dev"]

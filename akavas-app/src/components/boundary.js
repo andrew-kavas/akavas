@@ -3,8 +3,6 @@ import { Component, Suspense } from 'react';
 import LoadingArea from '#src/components/loading-area.js';
 import reportError from '#src/functions/report-error.js';
 
-
-
 class ErrorBoundary extends Component {
   constructor(props) {
     super(props);
@@ -28,13 +26,11 @@ class ErrorBoundary extends Component {
     return { error: error, isLoading: false };
   }
 
-
   async componentDidCatch(error) {
     // ... (logging and isMounted check) ...
     reportError(error);
     // Note: No need for this.setState here if GDSFE sets the state.
   }
-
 
   render() {
     const { error, isLoading } = this.state;
