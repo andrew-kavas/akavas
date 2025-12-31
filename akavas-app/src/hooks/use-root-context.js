@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
 
-const RootContext = createContext();
+const RootContext = createContext(undefined);
 
 export default () => useContext(RootContext);

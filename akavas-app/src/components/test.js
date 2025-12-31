@@ -1,18 +1,56 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import Clickable from '#src/components/clickable.js';
-import HooksTest from '#src/components/hooks-test.js';
 import Input from '#src/components/input.js';
 import LoadingArea from '#src/components/loading-area.js';
 import config from '#src/config.js';
 import colors from '#src/constants/colors.js';
 import clsx from '#src/functions/clsx.js';
 import useAsync from '#src/hooks/use-async.js';
-// import RouterTest from '#src/components/router-test.js';
+import useHistory from '#src/hooks/use-history.js';
+import useLocalStorage from '#src/hooks/use-local-storage.js';
 
-const { fetch } = globalThis;
+const { console, fetch, window } = globalThis;
 
 const { apiUrl } = config.akavas;
+
+const HooksTest = () => {
+  const history = useHistory();
+  console.log('history', history);
+
+  const [count, saveCount] = useLocalStorage('local-count', 0);
+  console.log('count', count);
+
+  return (
+    <div className='space-y-2'>
+      <div>
+        History Path
+        {history.path}
+      </div>
+      <div className='space-x-2'>
+        Local Storage Count: <div className='font-bold text-xl'>{count}</div>
+        <button className='bg-blue-200' onClick={() => saveCount(count + 1)}>
+          +
+        </button>
+        <button
+          className='link border-emerald-400'
+          onClick={() => window.location.reload()}
+        >
+          Reload Window
+        </button>
+        <button
+          className='link border border-orange-400'
+          onClick={() => {
+            window.localStorage.clear();
+            window.location.reload();
+          }}
+        >
+          Clear Local Storage
+        </button>
+      </div>
+    </div>
+  );
+};
 
 /** @param {{ testParam1: string; testError?: boolean }} props */
 const Test = ({ testParam1, testError }) => {
@@ -33,7 +71,7 @@ const Test = ({ testParam1, testError }) => {
 
   return (
     <>
-      {/* <RouterTest />*/}
+      {/* <RouterTest /> */}
       <div className='text-orange-500'>Testing</div>
       <HooksTest />
       <Input

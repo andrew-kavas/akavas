@@ -17,8 +17,8 @@ const { console, setTimeout } = globalThis;
  * @param {Function} importFunc - Dynamic import function (e.g., () =>
  *   import('./Component'))
  * @param {Object} options - Configuration options
- * @param {number} options.retries - Number of retry attempts (default: 3)
- * @param {number} options.retryDelay - Delay between retries in ms (default:
+ * @param {number} [options.retries] - Number of retry attempts (default: 3)
+ * @param {number} [options.retryDelay] - Delay between retries in ms (default:
  *   1000)
  * @returns {React.LazyExoticComponent} Lazy-loaded component
  */

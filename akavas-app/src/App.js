@@ -4,15 +4,10 @@ import reactLogo from '#src/assets/react.svg';
 import Test from '#src/components/test.js';
 import lazyLoad, { preloadComponent } from '#src/functions/lazy-load.js';
 import useHistory from '#src/hooks/use-history.js';
-import useRootContext from '#src/hooks/use-root-context.js';
 
-// import React, { Suspense, useCallback, useEffect, useState } from 'react';
-// import { createRoot } from 'react-dom/client';
-// const { document, window } = globalThis;
+
 
 import '#src/App.css';
-
-const { location } = globalThis;
 
 // Lazy-load ProjectA and ProjectB components
 const ProjectA = lazyLoad(() => import('#src/components/project-a.js'));
@@ -75,28 +70,21 @@ const Router = ({ path }) => {
 
 const App = () => {
   // Get the core navigation tools from the idiomatic hook name
-
-  const rootCtx = useRootContext();
-  // TODO: look at jobtread/jobtread-app/src/components/root.js
-  // const { location } = useRootContext()
-  console.log('rootCtx', rootCtx);
-  console.log('location', location);
-  console.log('location', location.pathname);
-  const parts = location.pathname.split('/');
-  console.log('parts', parts);
-
   const history = useHistory();
 
-  const NavItem = ({ to, label, onHover = null }) => (
+  const NavItem = ({
+    to,
+    label,
+    onHover = () => /** @type {any} */(null)
+  }) => (
     <button
       onClick={() => history.push(to)}
       onMouseEnter={onHover || undefined}
       className={`
         px-6 py-2 mx-2 rounded-lg font-semibold transition duration-150 ease-in-out
-        ${
-          history.path.startsWith(to) || (to === '/' && history.path === '/')
-            ? 'bg-indigo-600 text-white shadow-md'
-            : 'bg-indigo-100 text-indigo-700 hover:bg-indigo-200'
+          ${history.path.startsWith(to) || (to === '/' && history.path === '/')
+          ? 'bg-indigo-600 text-white shadow-md'
+          : 'bg-indigo-100 text-indigo-700 hover:bg-indigo-200'
         }
       `}
     >
@@ -108,7 +96,7 @@ const App = () => {
     <div className='min-h-screen bg-gray-50 p-6 font-[Inter]'>
       <Header />
       <Test testParam1={'ok'} />
-      {/* <Test testParam1='ok' testError={true} />*/}
+
       <Footer />
       <header className='text-center mb-10'>
         <h1 className='text-5xl font-extrabold text-gray-800 mb-2'>

@@ -7,6 +7,7 @@ import '#src/index.css';
 
 const { document } = globalThis;
 
+// @ts-expect-error: window.document could be null
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Boundary>

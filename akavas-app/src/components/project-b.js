@@ -1,5 +1,7 @@
 import React from 'react';
 
+const { console } = globalThis;
+
 // --- Utility Component for Layouts ---
 const PageLayout = ({ title, children }) => (
   <div className='p-8 bg-white shadow-xl rounded-2xl w-full'>
