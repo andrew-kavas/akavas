@@ -1,24 +1,34 @@
 #!/bin/sh -e
 
-# todo: rewrite to show detailed error info with locations
 maxTscErrors=0
+verbose=0
+filtered_args=""
 
-node_modules/.bin/eslint --color --quiet "$@" src &
+for arg in "$@"; do
+  if [ "$arg" = "--verbose" ]; then
+    verbose=1
+  else
+    filtered_args="$filtered_args $arg"
+  fi
+done
+
+node_modules/.bin/eslint --color --quiet $filtered_args src &
 eslintPid=$!
 
-(
-  tscErrors=$(
-    node node_modules/typescript/lib/tsc.js |
-    fgrep '): error TS' |
-    wc -l |
-    tr -d ' '
-  )
+{
+  tscOutput=$(node node_modules/typescript/lib/tsc.js || true)
+  tscErrors=$(echo "$tscOutput" | (fgrep '): error TS' || true) | wc -l | tr -d ' ')
+
+  if [ "$verbose" -eq 1 ]; then
+    echo "$tscOutput"
+  fi
+
   if [ $tscErrors -gt $maxTscErrors ]; then
     echo "The $tscErrors TSC errors exceeds the limit of $maxTscErrors"
     exit 1
   else
     echo "The $tscErrors TSC errors is within the limit of $maxTscErrors"
   fi
-)
+}
 
 wait $eslintPid
