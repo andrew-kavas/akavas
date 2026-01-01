@@ -1,7 +1,7 @@
 import { useSyncExternalStore } from 'react';
 
 import paveShim from '#src/constants/pave-shim.js';
-import getNewerVersion from '#src/functions/get-newer-version.js';
+import { fetchedVersion } from '#src/functions/get-newer-version.js';
 
 import decodeQuery from '#src/functions/decode-query.js';
 
@@ -34,7 +34,7 @@ const execute = ({ action, state, url }) => {
     return;
   }
 
-  if (getNewerVersion.fetched) {
+  if (fetchedVersion) {
     return location[loadTypes[next.action]](next.url);
   }
 

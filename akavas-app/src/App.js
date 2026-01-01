@@ -55,7 +55,7 @@ const Router = ({ path }) => {
 const NavItem = ({
   to,
   label,
-  onHover = () => null,
+  onHover = () => { },
   path
 }) => (
   <button
@@ -99,17 +99,17 @@ const App = () => {
         <NavItem
           to='/project-a'
           label='Project A'
-          // onHover={() =>
-          //   preloadComponent(() => import('#src/components/project-a.js'))
-          // }
+          onHover={() => {
+            preloadComponent(() => import('#src/components/project-a.js'))
+          }}
           path={path}
         />
         <NavItem
           to='/project-b'
           label='Project B'
-          // onHover={() =>
-          //   preloadComponent(() => import('#src/components/project-b.js'))
-          // }
+          onHover={() => {
+            preloadComponent(() => import('#src/components/project-b.js'))
+          }}
           path={path}
         />
       </nav>

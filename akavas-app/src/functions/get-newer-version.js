@@ -1,17 +1,18 @@
 import attempt from '#src/functions/attempt.js';
 import config from '#src/config.js';
 
-const { fetch } = globalThis;
 const { version } = config;
 
+export let fetchedVersion;
+
 const getNewerVersion = async () =>
-(getNewerVersion.fetched ??= await attempt(async () => {
+(fetchedVersion ??= await attempt(async () => {
     // todo: implement health check for my needs
     // const res = await fetch('/healthz');
     // const { version: currentVersion } = await res.json();
     // if (version !== currentVersion) return currentVersion;
     // return version;
-    return version ?? 'static'
+    return version;
 }));
 
 export default getNewerVersion;

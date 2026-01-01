@@ -33,17 +33,12 @@ jobs:
           curl -X POST -H 'Content-type: application/json' --data '{"text":"Build failed successfully!"}' ${{ secrets.SLACK_WEBHOOK_URL }}
         # curl -X POST -H 'Authorization: Bearer ${{ secrets.SLACK_BOT_TOKEN }}' -H 'Content-type: application/json' --data '{"channel":"${{ secrets.SLACK_CHANNEL_ID }}","text":"❌ Lint check failed! Deployment stopped."}' https://slack.com/api/chat.postMessage
 
-      - name: Check if main branch
-        if: github.ref != 'refs/heads/main'
-        run: |
-          echo "Not on main branch, skipping deployment steps."
-          exit 0
-
-
       - name: setup flyctl
+        if: github.ref == 'refs/heads/main'
         uses: superfly/flyctl-actions/setup-flyctl@master
 
       - name: fly deploy
+        if: github.ref == 'refs/heads/main'
         run: flyctl deploy --remote-only -a akavas
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN_APP }}
