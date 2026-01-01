@@ -14,7 +14,8 @@
   },
   "dependencies": {
     "react": "19",
-    "react-dom": "19"
+    "react-dom": "19",
+    "utf8": "3"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "4",
@@ -29,7 +30,6 @@
     "postcss": "8",
     "tailwindcss": "4",
     "typescript": "5",
-    "utf8": "3",
     "vite": "7"
   }
 }

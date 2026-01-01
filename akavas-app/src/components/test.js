@@ -69,9 +69,9 @@ const Test = ({ testParam1, testError }) => {
   const [color, setColor] = useState('');
 
   return (
-    <>
+    <div className='space-y-2 shadow rounded p-4'>
       {/* <RouterTest /> */}
-      <div className='text-orange-500'>Testing</div>
+      <div className='text-orange-600'>Testing</div>
       <HooksTest />
       <Input
         id='color-input'
@@ -89,7 +89,7 @@ const Test = ({ testParam1, testError }) => {
       {error && <div className='text-red-500'>Error: {error.message}</div>}
       <div>test change</div>
       {data && <div className='text-green-500'>{data}</div>}
-    </>
+    </div>
   );
 };
 

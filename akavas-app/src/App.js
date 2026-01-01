@@ -79,7 +79,7 @@ const App = () => {
   const { path } = useHistory();
 
   return (
-    <div className='min-h-screen bg-gray-50 p-6 font-[Inter]'>
+    <div className='min-h-screen p-6'>
       <Header />
       <Test testParam1={'ok'} />
 
