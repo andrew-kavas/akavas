@@ -1,42 +1,75 @@
-import { useCallback, useEffect, useState } from 'react';
+import paveShim from '#src/constants/pave-shim.js';
 
-const { window } = globalThis;
+import decodeQuery from '#src/functions/decode-query.js';
 
-export default () => {
-  // Initialize state with the current browser path
-  const [path, setPath] = useState(window.location.pathname);
+const { history, location, URL, window } = globalThis;
+const { mergeRefs } = paveShim;
 
-  // Function to change the URL and push a new history entry
-  const push = useCallback(newPath => {
-    window.history.pushState({}, '', newPath);
-    setPath(newPath);
-  }, []);
+const beforeListeners = new Set();
+const listeners = new Set();
 
-  // Function to change the URL and replace the current history entry
-  const replace = useCallback(newPath => {
-    window.history.replaceState({}, '', newPath);
-    setPath(newPath);
-  }, []);
+const getCurrent = ({ action, state, url }) => ({
+  action,
+  hash: url.hash,
+  path: url.pathname,
+  query: decodeQuery(url.search),
+  state,
+  url: `${url.pathname}${url.search}${url.hash}`
+});
 
-  useEffect(() => {
-    /**
-     * Handles 'popstate' events (when user clicks browser back/forward
-     * buttons). We update the path state to match the new URL.
-     */
-    const handlePopState = () => {
-      // Use pathname and not the full href
-      setPath(window.location.pathname);
-    };
+const loadTypes = { pop: 'reload', push: 'assign', replace: 'replace' };
 
-    // Attach the event listener when the component mounts
-    window.addEventListener('popstate', handlePopState);
+const execute = ({ action, state, url }) => {
+  const previous = obj.current;
+  const next = mergeRefs(getCurrent({ action, state, url }), previous);
+  if (next.url === previous.url) return;
 
-    // Clean up the event listener when the component unmounts
-    return () => {
-      window.removeEventListener('popstate', handlePopState);
-    };
-  }, []); // Run only once on mount
+  for (const { allowChange } of beforeListeners) {
+    if (allowChange({ previous, next })) continue;
 
-  // Return the current path and the navigation control functions
-  return { path, push, replace };
+    if (action === 'pop') history.pushState(previous.state, '', previous.url);
+    return;
+  }
+
+  // if (getNewerVersion.fetched) {
+  //   return location[loadTypes[next.action]](next.url);
+  // }
+
+  obj.current = next;
+  if (action !== 'pop') history[`${action}State`](state, '', next.url);
+  listeners.forEach(({ onChange }) => {
+    if (obj.current === next) onChange(next);
+  });
 };
+
+window.addEventListener('popstate', ({ state }) =>
+  execute({ action: 'pop', state, url: location })
+);
+
+const obj = {
+  current: getCurrent({ action: 'load', state: undefined, url: location }),
+
+  push: (url, state) =>
+    execute({ action: 'push', state, url: new URL(url, location.href) }),
+
+  replace: (url, state) =>
+    execute({ action: 'replace', state, url: new URL(url, location.href) }),
+
+  onChange: onChange => {
+    const listener = { onChange };
+    listeners.add(listener);
+    return () => {
+      listeners.delete(listener);
+    };
+  },
+
+  beforeChange: allowChange => {
+    const beforeListener = { allowChange };
+    beforeListeners.add(beforeListener);
+    return () => {
+      beforeListeners.delete(beforeListener);
+    };
+  }
+};
+
+export default obj;

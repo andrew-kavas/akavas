@@ -14,5 +14,5 @@ export default defineConfig({
   },
   esbuild: { loader: 'jsx', include: /src\/.*\.[jt]sx?$/, exclude: [] },
   optimizeDeps: { esbuildOptions: { loader: { '.js': 'jsx' } } },
-  resolve: { alias: { '#src': '/src' } }
+  resolve: { alias: { '#src': '/src', 'pave-shim': '/pave-shim' } }
 });

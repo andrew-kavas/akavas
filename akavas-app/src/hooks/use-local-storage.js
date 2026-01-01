@@ -1,8 +1,7 @@
-
-import * as React from "react";
+import * as React from 'react';
 
 function dispatchStorageEvent(key, newValue) {
-    window.dispatchEvent(new StorageEvent("storage", { key, newValue }));
+    window.dispatchEvent(new StorageEvent('storage', { key, newValue }));
 }
 
 const setLocalStorageItem = (key, value) => {
@@ -21,12 +20,12 @@ const getLocalStorageItem = (key) => {
 };
 
 const useLocalStorageSubscribe = (callback) => {
-    window.addEventListener("storage", callback);
-    return () => window.removeEventListener("storage", callback);
+    window.addEventListener('storage', callback);
+    return () => window.removeEventListener('storage', callback);
 };
 
 const getLocalStorageServerSnapshot = () => {
-    throw Error("useLocalStorage is a client-only hook");
+    throw Error('useLocalStorage is a client-only hook');
 };
 
 export function useLocalStorage(key, initialValue) {
@@ -42,7 +41,7 @@ export function useLocalStorage(key, initialValue) {
         (v) => {
             try {
                 const nextState =
-                    typeof v === "function"
+                    typeof v === 'function'
                         ? v(store ? JSON.parse(store) : initialValue)
                         : v;
 
@@ -61,7 +60,7 @@ export function useLocalStorage(key, initialValue) {
     React.useEffect(() => {
         if (
             getLocalStorageItem(key) === null &&
-            typeof initialValue !== "undefined"
+            typeof initialValue !== 'undefined'
         ) {
             setLocalStorageItem(key, initialValue);
         }

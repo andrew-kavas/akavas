@@ -6,6 +6,7 @@ on:
       - akavas-app/**
     branches:
       - main  # Specifies that this workflow runs on pushes to the main branch
+      - fun2
       # - fun  # Specifies that this workflow runs on pushes to the fun branch # - fun  # Specifies that this workflow runs on pushes to the fun branch
       # - ci-cd  # uncomment to test workflow on ci-cd branch
 
@@ -29,8 +30,15 @@ jobs:
       - name: Notify Slack on Failure
         if: failure()
         run: |
-          curl -X POST -H 'Content-type: application/json' --data '{"text":"Deploy failed successfully!"}' ${{ secrets.SLACK_WEBHOOK_URL }}
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"Build failed successfully!"}' ${{ secrets.SLACK_WEBHOOK_URL }}
         # curl -X POST -H 'Authorization: Bearer ${{ secrets.SLACK_BOT_TOKEN }}' -H 'Content-type: application/json' --data '{"channel":"${{ secrets.SLACK_CHANNEL_ID }}","text":"❌ Lint check failed! Deployment stopped."}' https://slack.com/api/chat.postMessage
+
+      - name: Check if main branch
+        if: github.ref != 'refs/heads/main'
+        run: |
+          echo "Not on main branch, skipping deployment steps."
+          exit 0
+
 
       - name: setup flyctl
         uses: superfly/flyctl-actions/setup-flyctl@master

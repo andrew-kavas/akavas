@@ -7,7 +7,7 @@ import config from '#src/config.js';
 import colors from '#src/constants/colors.js';
 import clsx from '#src/functions/clsx.js';
 import useAsync from '#src/hooks/use-async.js';
-import useHistory from '#src/hooks/use-history.js';
+import history from '#src/constants/history.js';
 import useLocalStorage from '#src/hooks/use-local-storage.js';
 
 const { console, fetch, window } = globalThis;
@@ -15,7 +15,6 @@ const { console, fetch, window } = globalThis;
 const { apiUrl } = config.akavas;
 
 const HooksTest = () => {
-  const history = useHistory();
   console.log('history', history);
 
   const [count, saveCount] = useLocalStorage('local-count', 0);

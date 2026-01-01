@@ -20,9 +20,9 @@ const isOurFault = er =>
  */
 export default fn => {
   const executeIdRef = useRef(0);
-  const [error, setError] = useState(/** @type {Error | null} */ (null));
+  const [error, setError] = useState(/** @type {Error | null} */(null));
   const [data, setData] = useState(
-    /** @type {Awaited<ReturnType<T>> | undefined} */ (undefined)
+    /** @type {Awaited<ReturnType<T>> | undefined} */(undefined)
   );
   const [isLoading, startLoading, endLoading] = useToggle();
 

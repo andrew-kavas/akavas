@@ -32,10 +32,11 @@ export default [
       ],
       'react/prop-types': 'off',
       'react/display-name': 'off',
-      'react/jsx-uses-react': 'off', // Not needed for React 17+ (using React 19)
-      'react/react-in-jsx-scope': 'off', // Not needed for React 17+ (using React 19)
+      'react/jsx-uses-react': 'off',
+      'react/react-in-jsx-scope': 'off',
       'react/no-unknown-property': 'off',
-      'no-multiple-empty-lines': ['error', { max: 1 }]
+      'no-multiple-empty-lines': ['error', { max: 1 }],
+      'quotes': ['error', 'single', { avoidEscape: true }]
     }
   }
 ];

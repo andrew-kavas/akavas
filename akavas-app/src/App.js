@@ -1,13 +1,12 @@
-import React, { Suspense } from 'react';
+import { Suspense } from 'react';
 
 import reactLogo from '#src/assets/react.svg';
 import Test from '#src/components/test.js';
 import lazyLoad, { preloadComponent } from '#src/functions/lazy-load.js';
-import useHistory from '#src/hooks/use-history.js';
+import history from '#src/constants/history.js';
 
 import '#src/App.css';
 
-// Lazy-load ProjectA and ProjectB components
 const ProjectA = lazyLoad(() => import('#src/components/project-a.js'));
 const ProjectB = lazyLoad(() => import('#src/components/project-b.js'));
 
@@ -28,7 +27,6 @@ const Footer = () => (
   </div>
 );
 
-// --- Utility Component for Layouts ---
 const PageLayout = ({ title, children }) => (
   <div className='p-8 bg-white shadow-xl rounded-2xl w-full'>
     <h2 className='text-4xl font-extrabold text-indigo-700 mb-6 border-b pb-2'>
@@ -38,9 +36,6 @@ const PageLayout = ({ title, children }) => (
   </div>
 );
 
-// --- 2. Page Components ---
-// These are the actual components rendered by the Router.
-
 const Home = () => (
   <PageLayout title='Home Dashboard'>
     <p className='text-lg text-gray-700'>
@@ -49,26 +44,18 @@ const Home = () => (
   </PageLayout>
 );
 
-// --- 3. The Router Component (Core Logic) ---
-
 const Router = ({ path }) => {
-  // Use the path state from the useHistory hook to determine which component to render
-  if (path.startsWith('/project-a')) {
-    return <ProjectA />;
-  }
-  if (path.startsWith('/project-b')) {
-    return <ProjectB />;
-  }
-  // Default route
+  if (path.startsWith('/project-a')) return <ProjectA />;
+
+  if (path.startsWith('/project-b')) return <ProjectB />;
+
   return <Home />;
 };
 
-// --- 4. Main Application ---
-//
-
 const App = () => {
-  // Get the core navigation tools from the idiomatic hook name
-  const history = useHistory();
+
+  console.log(history);
+  const { path } = history.current;
 
   const NavItem = ({
     to,
@@ -80,7 +67,7 @@ const App = () => {
       onMouseEnter={onHover || undefined}
       className={`
         px-6 py-2 mx-2 rounded-lg font-semibold transition duration-150 ease-in-out
-          ${history.path.startsWith(to) || (to === '/' && history.path === '/')
+          ${path.startsWith(to) || (to === '/' && path === '/')
           ? 'bg-indigo-600 text-white shadow-md'
           : 'bg-indigo-100 text-indigo-700 hover:bg-indigo-200'
         }
@@ -101,7 +88,7 @@ const App = () => {
           Custom Routing Example
         </h1>
         <p className='text-gray-500'>
-          Using `useHistory()` for path management.
+          Using `history` for path management.
         </p>
       </header>
 
@@ -137,14 +124,15 @@ const App = () => {
             </PageLayout>
           }
         >
-          <Router path={history.path} />
+          <Router path={path} />
         </Suspense>
 
         <div className='mt-8 pt-6 text-center border-t border-gray-200 text-sm font-mono text-gray-500'>
-          Current Path: {history.path}
+          Current Path: {path}
         </div>
       </main>
     </div>
   );
 };
+
 export default App;
