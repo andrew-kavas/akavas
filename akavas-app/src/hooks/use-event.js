@@ -11,7 +11,7 @@ const useEvent = fn => {
     ref.current = fn;
   }, [fn]);
 
-  return useCallback(/** @type {T} */ ((...args) => ref.current(...args)), []);
+  return useCallback(/** @type {T} */((...args) => ref.current(...args)), []);
 };
 
 export default useEvent;

@@ -7,6 +7,9 @@ node_modules/
 jsconfig.json
 notes.md
 
+# Pave shim
+/akavas-app/pave-shim/pave
+
 # Build output
 /akavas-app/dist/
 /akavas-app/.vite/

@@ -1,16 +1,17 @@
-# Build stage
-FROM node:alpine as build
-
+# Base stage
+FROM node:alpine as base
 WORKDIR /app
-
-# Install dependencies
 COPY package*.json ./
 RUN npm install
 
-# Copy the rest of the application code
+# Development stage
+FROM base as development
 COPY . .
+CMD ["npm", "run", "dev"]
 
-# Build the application
+# Build stage
+FROM base as build
+COPY . .
 RUN npm run build
 
 # Production stage with nginx
@@ -27,17 +28,3 @@ EXPOSE 80
 
 # Start nginx
 CMD ["nginx", "-g", "daemon off;"]
-
-# Development stage (for local development)
-FROM node:alpine as development
-
-WORKDIR /app
-
-COPY package*.json ./
-RUN npm install
-
-COPY . .
-
-EXPOSE 3000
-
-CMD ["npm", "run", "dev"]
