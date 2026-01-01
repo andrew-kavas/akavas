@@ -1,9 +1,12 @@
+import { useSyncExternalStore } from 'react';
+
 import paveShim from '#src/constants/pave-shim.js';
+import getNewerVersion from '#src/functions/get-newer-version.js';
 
 import decodeQuery from '#src/functions/decode-query.js';
 
-const { history, location, URL, window } = globalThis;
 const { mergeRefs } = paveShim;
+const { history, location, URL, window } = globalThis;
 
 const beforeListeners = new Set();
 const listeners = new Set();
@@ -31,9 +34,9 @@ const execute = ({ action, state, url }) => {
     return;
   }
 
-  // if (getNewerVersion.fetched) {
-  //   return location[loadTypes[next.action]](next.url);
-  // }
+  if (getNewerVersion.fetched) {
+    return location[loadTypes[next.action]](next.url);
+  }
 
   obj.current = next;
   if (action !== 'pop') history[`${action}State`](state, '', next.url);
@@ -71,5 +74,7 @@ const obj = {
     };
   }
 };
+
+export const useHistory = () => useSyncExternalStore(obj.onChange, () => obj.current);
 
 export default obj;

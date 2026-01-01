@@ -1,5 +1,3 @@
-import React from 'react';
-
 const { console } = globalThis;
 
 // --- Utility Component for Layouts ---

@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import reactLogo from '#src/assets/react.svg';
 import Test from '#src/components/test.js';
 import lazyLoad, { preloadComponent } from '#src/functions/lazy-load.js';
-import history from '#src/constants/history.js';
+import history, { useHistory } from '#src/constants/history.js';
 
 import '#src/App.css';
 
@@ -52,30 +52,31 @@ const Router = ({ path }) => {
   return <Home />;
 };
 
+const NavItem = ({
+  to,
+  label,
+  onHover = () => null,
+  path
+}) => (
+  <button
+    onClick={() => history.push(to)}
+    onMouseEnter={onHover || undefined}
+    className={`
+      px-6 py-2 mx-2 rounded-lg font-semibold transition duration-150 ease-in-out
+        ${path.startsWith(to) || (to === '/' && path === '/')
+        ? 'bg-indigo-600 text-white shadow-md'
+        : 'bg-indigo-100 text-indigo-700 hover:bg-indigo-200'
+      }
+    `}
+  >
+    {label}
+  </button>
+);
+
 const App = () => {
 
   console.log(history);
-  const { path } = history.current;
-
-  const NavItem = ({
-    to,
-    label,
-    onHover = () => /** @type {any} */(null)
-  }) => (
-    <button
-      onClick={() => history.push(to)}
-      onMouseEnter={onHover || undefined}
-      className={`
-        px-6 py-2 mx-2 rounded-lg font-semibold transition duration-150 ease-in-out
-          ${path.startsWith(to) || (to === '/' && path === '/')
-          ? 'bg-indigo-600 text-white shadow-md'
-          : 'bg-indigo-100 text-indigo-700 hover:bg-indigo-200'
-        }
-      `}
-    >
-      {label}
-    </button>
-  );
+  const { path } = useHistory();
 
   return (
     <div className='min-h-screen bg-gray-50 p-6 font-[Inter]'>
@@ -94,20 +95,22 @@ const App = () => {
 
       {/* Navigation Links */}
       <nav className='flex justify-center mb-12'>
-        <NavItem to='/' label='Home' />
+        <NavItem to='/' label='Home' path={path} />
         <NavItem
           to='/project-a'
           label='Project A'
-          onHover={() =>
-            preloadComponent(() => import('#src/components/project-a.js'))
-          }
+          // onHover={() =>
+          //   preloadComponent(() => import('#src/components/project-a.js'))
+          // }
+          path={path}
         />
         <NavItem
           to='/project-b'
           label='Project B'
-          onHover={() =>
-            preloadComponent(() => import('#src/components/project-b.js'))
-          }
+          // onHover={() =>
+          //   preloadComponent(() => import('#src/components/project-b.js'))
+          // }
+          path={path}
         />
       </nav>
 
