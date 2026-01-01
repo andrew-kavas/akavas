@@ -4,7 +4,7 @@ import reactRefresh from 'eslint-plugin-react-refresh';
 import globals from 'globals';
 
 export default [
-  { ignores: ['dist/**', 'node_modules/**', '.git/**', '.gemini/**'] },
+  { ignores: ['dist/**', 'node_modules/**', '.git/**', '.gemini/**', 'pave-shim/pave/**'] },
   {
     files: ['**/*.{js,jsx}'],
     languageOptions: {

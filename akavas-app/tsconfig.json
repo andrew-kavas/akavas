@@ -30,6 +30,7 @@
     ]
   },
   "exclude": [
-    "dist"
+    "dist",
+    "pave-shim/pave"
   ]
 }
